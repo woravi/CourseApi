@@ -1,7 +1,9 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +30,15 @@ builder.Services.AddAuthentication(option =>
         ValidateAudience = true,
         ValidateLifetime = false,
         ValidateIssuerSigningKey = true
-
     };
+});
+
+builder.Services.AddCors(option =>
+{
+    option.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
 });
 
 var app = builder.Build();
@@ -50,4 +59,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

@@ -8,4 +8,3 @@
         public int price { get; set; }
     }
 }
-
